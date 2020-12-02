@@ -1,0 +1,128 @@
+<html>
+  <head>
+    <!-- Load TensorFlow.js. This is required to use coco-ssd model. -->
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs"> </script>
+    <!-- Load the coco-ssd model. -->
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/coco-ssd"> </script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
+    <script src="src/js/mobileNet.js"></script>
+  </head>
+  <body class="container" style="text-align: center;">
+    <div id="objectBlock">
+      <br>
+      <h1 style="font-size: 50px;">mobile object detector</h1><br>
+      <input style="font-size: 30px;" id="imgInp" type="file" accept="image/gif,image/jpeg,image/png,image/jpg">
+      <hr>
+      <h3>Input image</h3><br>
+      <img width="80%" id="blah" src="#" alt="your image" />
+      <hr>
+      <button id="btnDetector" style="font-size: 28px;"  class="btn btn-info">detector</button>
+      <br><br>
+      <h3>prediction result</h3><br>
+      <canvas  id="canvas"></canvas>
+      <hr>
+      <button id="btnDownload" style="font-size: 28px;" class="btn btn-success">download</button>
+
+    </div>
+
+    <script>
+      function readURL(input) {
+        if (input.files && input.files[0]) {
+          var reader = new FileReader();
+          
+          reader.onload = function(e) {
+            $('#blah').attr('src', e.target.result);
+          }
+          
+          reader.readAsDataURL(input.files[0]);
+        }
+      }
+
+      $("#imgInp").change(function() {
+        readURL(this);
+      });
+
+      function drawBBox(predictions){
+    var canvas = document.getElementById('canvas'),
+      context = canvas.getContext('2d'),
+      image = new Image();
+
+
+      image.onload = function() {
+        var w = document.getElementById("blah").offsetWidth,
+            h = document.getElementById("blah").offsetHeight;
+          
+        canvas.width = w;
+        canvas.height = h;
+        context.drawImage(this, 0, 0, w, h);
+        for(let i = 0;i < predictions.length;i++){
+          var bbox = predictions[i].bbox
+          var label = predictions[i].class
+          context.beginPath();
+          context.strokeStyle="red";
+          context.rect(bbox[0],bbox[1],bbox[2],bbox[3]);
+          context.stroke();
+          
+          context.font = "18px Comic Sans MS";
+          context.fillStyle = "red";
+          context.fillText(label,bbox[0],bbox[1]+20);
+        }
+      }
+
+    console.log()
+    var img_src = document.getElementById("blah").getAttribute("src")
+    image.src = img_src
+  }
+
+    function objectDetector(){
+      const img = document.getElementById('blah');
+      console.log("start detector")
+      // Load the model.
+      cocoSsd.load().then(model => {
+        // detect objects in the image.
+        model.detect(img).then(predictions => {
+          // console.log('Predictions: ', predictions);
+          drawBBox(predictions)
+        });
+      });
+    }
+
+
+    function download () {
+          console.log("download")
+          const canvas = document.getElementById("canvas")
+          var src = canvas.toDataURL('image/jpeg')
+          if (!src) return;
+          const a = document.createElement('a');
+          a.setAttribute('download', "../assets/images/" + new Date());
+          a.href = src;
+          a.click();
+    }
+
+
+    window.onload = ()=>{
+      objectDetector()
+      $("#btnDetector").click(objectDetector)
+      $("#btnDownload").click(download)
+    }
+
+    </script>
+  </body>
+  <style>
+    #objectBlock{
+      margin:30px 0px 50px 0px;
+    }
+    img{
+      margin:20px 0 20px 0;
+    }
+    canvas{
+      margin: 20px 0 20px 0;
+    }
+    button{
+      font-size: 28px;
+      width: 80%;
+    }
+  </style>
+</html>
