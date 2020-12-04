@@ -12,6 +12,11 @@ app.get("/webRTC",(req,res)=>{
   res.sendFile(__dirname + "/src/webRTC.html")
 })
 
+app.get("/BodyPix",(req,res)=>{
+  res.sendFile(__dirname + "/src/BodyPix.html")
+})
+
+
 var server = app.listen(3000,()=>{
   console.log(`Server is start port : ${server.address().port}`)
 })

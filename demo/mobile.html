@@ -9,21 +9,51 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
     <script src="src/js/mobileNet.js"></script>
   </head>
-  <body class="container" style="text-align: center;">
-    <div id="objectBlock">
+  <body >
+    <h1 id="title" >Mobile object detector</h1>
+    <br>
+    <div id="pageBody"  class="row col-sm-12">
+       
+      <div  class="btn btn-info col-sm-12" style="font-size: 24px; border-radius: 10px 10px 0 0;">
+        <svg id="imgInpIcon" width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-file-earmark-image" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+          <path fill-rule="evenodd" d="M12 16a2 2 0 0 0 2-2V4.5L9.5 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8zM3 2a1 1 0 0 1 1-1h5.5v2A1.5 1.5 0 0 0 11 4.5h2V10l-2.083-2.083a.5.5 0 0 0-.76.063L8 11 5.835 9.7a.5.5 0 0 0-.611.076L3 12V2z"/>
+          <path fill-rule="evenodd" d="M6.502 7a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3z"/>
+        </svg>
+        upload image
+      </div>
+      <input   id="imgInp" type="file" accept="image/gif,image/jpeg,image/png,image/jpg">
+
       <br>
-      <h1 style="font-size: 50px;">mobile object detector</h1><br>
-      <input style="font-size: 30px;" id="imgInp" type="file" accept="image/gif,image/jpeg,image/png,image/jpg">
-      <hr>
-      <h3>Input image</h3><br>
-      <img width="80%" id="blah" src="#" alt="your image" />
-      <hr>
-      <button id="btnDetector" style="font-size: 28px;"  class="btn btn-info">detector</button>
-      <br><br>
-      <h3>prediction result</h3><br>
-      <canvas  id="canvas"></canvas>
-      <hr>
-      <button id="btnDownload" style="font-size: 28px;" class="btn btn-success">download</button>
+      
+      <div id="leftBlock" class="col-sm-9">
+        <div id="inputImageBlock" >
+          <img width="80%" id="blah" src="#" alt="your image" />
+          <hr>
+        </div>
+        <br>
+        <div id="predictImageBlock" style="text-align: center;">
+          <canvas  id="canvas"></canvas>
+          <hr>
+          <button id="btnDownload" style="font-size: 20px;" class="btn btn-success">
+            <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-cloud-download" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd" d="M4.406 1.342A5.53 5.53 0 0 1 8 0c2.69 0 4.923 2 5.166 4.579C14.758 4.804 16 6.137 16 7.773 16 9.569 14.502 11 12.687 11H10a.5.5 0 0 1 0-1h2.688C13.979 10 15 8.988 15 7.773c0-1.216-1.02-2.228-2.313-2.228h-.5v-.5C12.188 2.825 10.328 1 8 1a4.53 4.53 0 0 0-2.941 1.1c-.757.652-1.153 1.438-1.153 2.055v.448l-.445.049C2.064 4.805 1 5.952 1 7.318 1 8.785 2.23 10 3.781 10H6a.5.5 0 0 1 0 1H3.781C1.708 11 0 9.366 0 7.318c0-1.763 1.266-3.223 2.942-3.593.143-.863.698-1.723 1.464-2.383z"/>
+              <path fill-rule="evenodd" d="M7.646 15.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 14.293V5.5a.5.5 0 0 0-1 0v8.793l-2.146-2.147a.5.5 0 0 0-.708.708l3 3z"/>
+            </svg>
+            download
+          </button>
+          <button id="btnDetector" style="font-size: 20px;"  class="btn btn-info">
+            <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-eye-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+              <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z"/>
+              <path fill-rule="evenodd" d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z"/>
+            </svg>
+            detect
+          </button>
+
+        </div>
+      </div>
+      <div id="cropImgBlock"  class="col-sm-3">
+  
+      </div>
 
     </div>
 
@@ -43,17 +73,102 @@
       $("#imgInp").change(function() {
         readURL(this);
       });
+    </script>
+  </body>
+  <style>
+    #title{
+      font-size: 50px;
+      text-align: center;
+      color: gray;
+    }
+    #cropImgBlock{
+      height: 100%;
+      overflow-x: auto;
+    }
+    #pageBody{
+      height: 80%;
+    }
+    #leftBlock{
+      padding-top: 15px;
+      height: 100%;
+      overflow-x: auto;
+      border:  rgb(200,200,200,0.5) solid 1px;
+      border-radius:0 0 0 10px
+    }
+    #cropImgBlock{
+      text-align: center;
+      background: rgb(200,200,200,0.5);
+      border-radius: 0 0 10px 0;
+    }
+    #inputImageBlock{
+      text-align: center;
+      padding:0 20px 0 0;
+    }
+    
+    #imgInp{
+      display: none;
+      font-size: 24px;
+      width: 50%;
+      overflow-x: hidden;
+    }
+    body{
+      margin: 0 10% 0 10%;
+      padding:50px 0 50px 0;
+    }
+    img{
+      margin:20px 0 20px 0;
+    }
+    canvas{
+      margin: 20px 0 20px 0;
+    }
+    button{
+      font-size: 30px;
+    }
 
-      function drawBBox(predictions){
+  </style>
+  <script>
+    function cropImage(bbox,label,score,img){
+  var canvas = document.createElement("canvas")
+  var hr = document.createElement("hr")
+  var h3 = document.createElement("h3")
+  h3.innerHTML = `${label} score : ${Math.ceil(score*100)/100}`
+  document.getElementById("cropImgBlock").appendChild(h3)
+  document.getElementById("cropImgBlock").appendChild(canvas)
+  document.getElementById("cropImgBlock").appendChild(hr)
+
+  context = canvas.getContext('2d')
+  var w_scalar = img.width/document.getElementById("blah").offsetWidth
+  var h_scalar = img.height/document.getElementById("blah").offsetHeight
+  var crop = {
+    source_x:bbox[0] * w_scalar,
+    source_y:bbox[1] * h_scalar,
+    source_w:bbox[2] * w_scalar,
+    source_h:bbox[3] * h_scalar,
+    destination_x:0,
+    destination_y:0,
+    destination_w:  document.getElementById("cropImgBlock").offsetWidth*0.8,
+    destination_h: document.getElementById("cropImgBlock").offsetWidth*0.8/(bbox[2] * w_scalar)* (bbox[3] * h_scalar)
+  }
+
+  canvas.width =  crop.destination_w
+  canvas.height =  crop.destination_h
+
+  context.drawImage(img,crop.source_x,crop.source_y,crop.source_w,crop.source_h,
+    crop.destination_x,crop.destination_y,crop.destination_w,crop.destination_h)
+}
+
+
+function drawBBox(predictions){
+  $("#cropImgBlock").empty()
     var canvas = document.getElementById('canvas'),
       context = canvas.getContext('2d'),
       image = new Image();
 
 
       image.onload = function() {
+
         var w = document.getElementById("blah").offsetWidth,
             h = document.getElementById("blah").offsetHeight;
-          
         canvas.width = w;
         canvas.height = h;
         context.drawImage(this, 0, 0, w, h);
@@ -68,61 +183,81 @@
           context.font = "18px Comic Sans MS";
           context.fillStyle = "red";
           context.fillText(label,bbox[0],bbox[1]+20);
+          cropImage(bbox,predictions[i].class,predictions[i].score,image)
+
         }
       }
-
-    console.log()
     var img_src = document.getElementById("blah").getAttribute("src")
     image.src = img_src
   }
 
-    function objectDetector(){
-      const img = document.getElementById('blah');
-      console.log("start detector")
-      // Load the model.
-      cocoSsd.load().then(model => {
-        // detect objects in the image.
-        model.detect(img).then(predictions => {
-          // console.log('Predictions: ', predictions);
-          drawBBox(predictions)
-        });
-      });
-    }
+function objectDetector(){
+  const img = document.getElementById('blah');
+  console.log("start detector")
+  // Load the model.
+  cocoSsd.load().then(model => {
+    // detect objects in the image.
+    model.detect(img).then(predictions => {
+      // console.log('Predictions: ', predictions);
+      drawBBox(predictions)
+    });
+  });
+}
 
 
-    function download () {
-          console.log("download")
-          const canvas = document.getElementById("canvas")
-          var src = canvas.toDataURL('image/jpeg')
-          if (!src) return;
-          const a = document.createElement('a');
-          a.setAttribute('download', "../assets/images/" + new Date());
-          a.href = src;
-          a.click();
-    }
+function download () {
+      console.log("download")
+      const canvas = document.getElementById("canvas")
+      var src = canvas.toDataURL('image/jpeg')
+      if (!src) return;
+      const a = document.createElement('a');
+      a.setAttribute('download', "../assets/images/" + new Date());
+      a.href = src;
+      a.click();
+}
 
+function initRWD(){
+  var h = document.body.clientHeight
+  $("body").css("height",h)
+}
+ 
+function getInfo()
+{
+var s = "";
+s += " 網頁可見區域寬："+ document.body.clientWidth;
+s += " 網頁可見區域高："+ document.body.clientHeight;
+s += " 網頁可見區域寬："+ document.body.offsetWidth + " (包括邊線和捲軸的寬)";
+s += " 網頁可見區域高："+ document.body.offsetHeight + " (包括邊線的寬)";
+s += " 網頁正文全文寬："+ document.body.scrollWidth;
+s += " 網頁正文全文高："+ document.body.scrollHeight;
+s += " 網頁被卷去的高(ff)："+ document.body.scrollTop;
+s += " 網頁被卷去的高(ie)："+ document.documentElement.scrollTop;
+s += " 網頁被卷去的左："+ document.body.scrollLeft;
+s += " 網頁正文部分上："+ window.screenTop;
+s += " 網頁正文部分左："+ window.screenLeft;
+s += " 螢幕解析度的高："+ window.screen.height;
+s += " 螢幕解析度的寬："+ window.screen.width;
+s += " 螢幕可用工作區高度："+ window.screen.availHeight;
+s += " 螢幕可用工作區寬度："+ window.screen.availWidth;
+s += " 你的螢幕設置是 "+ window.screen.colorDepth +" 位彩色";
+s += " 你的螢幕設置 "+ window.screen.deviceXDPI +" 像素/英寸";
+//alert (s);
+console.log(s)
+}
 
-    window.onload = ()=>{
-      objectDetector()
-      $("#btnDetector").click(objectDetector)
-      $("#btnDownload").click(download)
-    }
+$(document).ready(()=>{
+  console.log($("#imgInpIcon").parent())
+  $("#imgInpIcon").parent().click(()=>{
+    $("#imgInp").click()
+  })
+})
 
-    </script>
-  </body>
-  <style>
-    #objectBlock{
-      margin:30px 0px 50px 0px;
-    }
-    img{
-      margin:20px 0 20px 0;
-    }
-    canvas{
-      margin: 20px 0 20px 0;
-    }
-    button{
-      font-size: 28px;
-      width: 80%;
-    }
-  </style>
+window.onload = ()=>{
+  $("#btnDetector").click(objectDetector)
+  $("#btnDownload").click(download)
+  initRWD()
+  objectDetector()
+}
+
+  </script>
 </html>
